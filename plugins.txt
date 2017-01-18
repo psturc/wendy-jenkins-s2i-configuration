@@ -7,3 +7,4 @@ envinject:1.93.1
 aws-credentials:1.16
 credentials-binding:1.10
 ws-cleanup:0.32
+jobConfigHistory:2.15
