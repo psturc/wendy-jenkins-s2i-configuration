@@ -8,3 +8,4 @@ aws-credentials:1.16
 credentials-binding:1.10
 ws-cleanup:0.32
 jobConfigHistory:2.15
+copyartifact:1.38.1
