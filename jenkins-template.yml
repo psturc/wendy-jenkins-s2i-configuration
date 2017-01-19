@@ -60,8 +60,8 @@ objects:
     runPolicy: Serial
     source:
       git:
-        uri: https://github.com/feedhenry/wendy-jenkins-s2i-configuration
-        ref: master
+        uri: https://github.com/mikenairn/wendy-jenkins-s2i-configuration
+        ref: RHMAP-12680_release_pipeline
       contextDir: slave-nvm
       type: Git
     strategy:
@@ -93,14 +93,42 @@ objects:
     runPolicy: Serial
     source:
       git:
-        uri: https://github.com/feedhenry/wendy-jenkins-s2i-configuration
-        ref: master
+        uri: https://github.com/mikenairn/wendy-jenkins-s2i-configuration
+        ref: RHMAP-12680_release_pipeline
       contextDir: slave-ruby
       type: Git
     strategy:
-      dockerStrategy:
-          noCache: true
-      type: Docker 
+      type: Docker
+    triggers:
+    - type: ImageChange
+    - type: ConfigChange
+
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: ${JENKINS_SERVICE_NAME}-slave-ruby-fhcap
+    annotations:
+        slave-label: ruby-fhcap
+    labels:
+      role: jenkins-slave
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: ${JENKINS_SERVICE_NAME}-slave-ruby-fhcap
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: ${JENKINS_SERVICE_NAME}-slave-ruby-fhcap:latest
+    runPolicy: Serial
+    source:
+      git:
+        uri: https://github.com/mikenairn/wendy-jenkins-s2i-configuration
+        ref: RHMAP-12680_release_pipeline
+      contextDir: slave-ruby-fhcap
+      type: Git
+    strategy:
+      type: Docker
     triggers:
     - type: ImageChange
     - type: ConfigChange
@@ -119,7 +147,8 @@ objects:
         FROM openshift/jenkins-2-rhel7
         USER example
       git:
-        uri: https://github.com/feedhenry/wendy-jenkins-s2i-configuration.git
+        uri: https://github.com/mikenairn/wendy-jenkins-s2i-configuration.git
+        ref: RHMAP-12680_release_pipeline
       type: Git
     strategy:
       sourceStrategy:
