@@ -9,5 +9,5 @@ RUN yum clean all && \
 RUN mkdir /etc/ansible/
 RUN echo -e '[local]\nlocalhost' > /etc/ansible/hosts
 RUN echo -e '\nssh:localhost:allow\nsshd:localhost:allow' >> /etc/hosts.allow
-RUN iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+RUN su 'iptables -A INPUT -p tcp --dport ssh -j ACCEPT'
 RUN pip install ansible
